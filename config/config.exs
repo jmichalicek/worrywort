@@ -22,6 +22,30 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+# will this config for identity cause problems with other auth types?
+config :ueberauth, Ueberauth,
+  base_path: "/",  #default is /auth
+  providers: [
+    identity: { Ueberauth.Strategy.Identity, [
+        callback_methods: ["POST"],
+        uid_field: :email,
+        nickname_field: :email,
+        request_path: "/login",
+        callback_path: "/login",
+        param_nesting: "auth"
+      ] }
+  ]
+
+config :invitatr, Invitatr.Mailer,
+  adapter: Bamboo.LocalAdapter
+  #adapter: Bamboo.SMTPAdapter,
+  #server: System.get_env("SMTP_HOST"),
+  #port: System.get_env("SMTP_PORT"),
+  #username: System.get_env("SMTP_USERNAME"),
+  #password: System.get_env("SMTP_PASSWORD"),
+  #tls: :if_available,
+  #ssl: false,retries: 1
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
