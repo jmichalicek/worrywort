@@ -79,7 +79,7 @@ defmodule Brewbase.User do
   """
   defp set_password_changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, ~w(password password_confirmation), [])
+    |> cast(params, ~w(password password_confirmation))
     |> validate_confirmation(:password, message: "Password does not match confirmation")
     |> validate_length(:password, min: 6, message: "Ensure your password has at least 6 characters")
     |> put_hash_password()
