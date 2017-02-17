@@ -1,8 +1,11 @@
 defmodule Mix.Tasks.CreateUser do
   use Mix.Task
+  import Mix.Ecto
 
   # TODO: Set up to use any old user model by configuratioon
   alias Brewbase.User
+  alias Brewbase.Repo
+  
 
   # TODO: handle password
   @switches  [first_name: :string, last_name: :string, email: :string,
@@ -10,26 +13,26 @@ defmodule Mix.Tasks.CreateUser do
   @aliases [f: :first_name, l: :last_name, e: :email, a: :is_active, p: :password]
   @shortdoc "Creates a User in the database"
   def run(args) do
+    ensure_started(Repo, [])
     #user = User.changeset(%{})
-    {options, a, errors} = OptionParser.parse(args, switches: @switches, aliases: @aliases)
+    {options, _, errors} = OptionParser.parse(args, switches: @switches, aliases: @aliases)
+
+    #TODO: prompt for any needed data which was not passed on command line
+
     #IO.inspect(options)
     #u = User.changeset(options)
     #IO.inspect(u)
-    IO.inspect(options)
     if !list_empty?(errors) do
       print_errors(errors)
     else
-      IO.puts "Doing it!"
       create_user(options)
     end
   end
 
-  def list_empty?([]) do
-    true
-  end
+  def list_empty?([]), do: true
 
-  def list_empty?(list) do
-    false
+  def list_empty?(list) when is_list(list) do
+      false
   end
 
   def print_help() do
@@ -40,7 +43,6 @@ defmodule Mix.Tasks.CreateUser do
   end
 
   def create_user(options) do
-    IO.puts(!options[:is_active])
     # if not for the password/password confirmation we could just use
     # Enum.into(options)
     # the !options[:is_active] makes a default to true even if not specified
@@ -52,6 +54,20 @@ defmodule Mix.Tasks.CreateUser do
       :password => options[:password],
       :password_confirmation => options[:password]
     }
-    User.changeset(%User{}, params)
+    changeset = User.changeset(%User{}, params)
+
+    case Repo.insert(changeset) do
+      {:ok, user} ->
+        IO.puts("Created user #{user.email}!")
+      {:error, changeset} ->
+        IO.puts("The following errors occurred when creating the user:")
+        for {field, {error, _}} <- changeset.errors do
+          IO.puts IO.ANSI.format([:red, "#{field}:\n", :white, "\t#{error}"], true)
+          #for error <- errors do
+            #  IO.inspect error
+            #end
+        end
+        #        IO.inspect(changeset)
+    end
   end
 end
