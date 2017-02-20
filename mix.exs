@@ -23,7 +23,7 @@ defmodule Brewbase.Mixfile do
   #end
 
   def application do
-    [mod: {BrewBase, []},
+    [mod: {Brewbase, []},
      applications: app_list(Mix.env)]
   end
   defp app_list(:test), do: app_list ++ [:ex_machina]
