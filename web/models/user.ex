@@ -20,10 +20,11 @@ defmodule Brewbase.User do
     field :current_password, :string, virtual: true
   end
 
-  @required_fields [:email, ]
+  @required_fields [:email, :first_name]
   @optional_fields [:first_name, :last_name, :is_active, :last_login,
                     :password, :password_confirmation]
 
+  def required_fields, do:  @required_fields
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """

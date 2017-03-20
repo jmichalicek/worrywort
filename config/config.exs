@@ -36,8 +36,8 @@ config :ueberauth, Ueberauth,
       ] }
   ]
 
-config :invitatr, Invitatr.Mailer,
-  adapter: Bamboo.LocalAdapter
+  #config :invitatr, Invitatr.Mailer,
+  #adapter: Bamboo.LocalAdapter
   #adapter: Bamboo.SMTPAdapter,
   #server: System.get_env("SMTP_HOST"),
   #port: System.get_env("SMTP_PORT"),
@@ -45,7 +45,22 @@ config :invitatr, Invitatr.Mailer,
   #password: System.get_env("SMTP_PASSWORD"),
   #tls: :if_available,
   #ssl: false,retries: 1
+  #
 
+  # phoenix_users app config testing
+config :phoenix_users,
+  ecto_repo: Brewbase.Repo,
+  user_model: Brewbase.User
+
+config :guardian, Guardian,
+  allowed_algos: ["HS512"], # optional
+  verify_module: Guardian.JWT,  # optional
+  issuer: "Brewbase",
+  ttl: { 30, :days },
+  allowed_drift: 2000,
+  verify_issuer: true, # optional
+  secret_key: %{"k" => "GENERATE_ME", "kty" => "oct"},
+  serializer: Brewbase.GuardianSerializer
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
