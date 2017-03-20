@@ -15,8 +15,13 @@ defmodule Brewbase.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :browser_auth do
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
+  end
+
   scope "/", Brewbase do
-    pipe_through :browser # Use the default browser stack
+    pipe_through [:browser, :browser_auth] # Use the default browser stack
 
     get "/", PageController, :index
 
