@@ -23,14 +23,14 @@ defmodule Brewbase.Mixfile do
   #end
 
   def application do
-    [mod: {BrewBase, []},
+    [mod: {Brewbase, []},
      applications: app_list(Mix.env)]
   end
   defp app_list(:test), do: app_list ++ [:ex_machina]
   defp app_list(_), do: app_list
   defp app_list, do: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy,
    :logger, :gettext, :phoenix_ecto, :postgrex, :comeonin, :ueberauth,
-   :ueberauth_identity, :tzdata, :calendar, :bamboo, :bamboo_smtp]
+   :ueberauth_identity, :tzdata, :calendar, :bamboo, :bamboo_smtp, :phoenix_users]
    
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
@@ -56,7 +56,10 @@ defmodule Brewbase.Mixfile do
      {:comeonin, "~> 3.0"},
      {:ex_machina, "~> 1.0"},
      {:bamboo, "~> 0.8"},
-     {:bamboo_smtp, "~> 1.3.0"}
+     {:bamboo_smtp, "~> 1.3.0"},
+     {:guardian, "~> 0.14"},
+     # dev stuff
+     {:phoenix_users, path: "~/dev/phoenix_users/"},
    ]
   end
 

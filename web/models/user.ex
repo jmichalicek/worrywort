@@ -20,10 +20,11 @@ defmodule Brewbase.User do
     field :current_password, :string, virtual: true
   end
 
-  @required_fields [:email, ]
+  @required_fields [:email, :first_name]
   @optional_fields [:first_name, :last_name, :is_active, :last_login,
                     :password, :password_confirmation]
 
+  def required_fields, do:  @required_fields
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
@@ -99,6 +100,13 @@ defmodule Brewbase.User do
       _ ->
         changeset
     end
+  end
+
+  def set_password(struct, params \\ %{}) do
+    struct
+    |> cast(params, ~w(password))
+    |> validate_length(:password, min: 6, message: "Password must be at least 6 characters")
+    |> put_hash_password()
   end
 
 end
