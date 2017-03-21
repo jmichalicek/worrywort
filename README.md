@@ -1,5 +1,14 @@
 # Brewbase
 
+A toy project for tracking homebrew batches written using Elixir/Phoenix
+with a GraphQL API and likely React front end.
+
+## TODO
+
+* Test cases - any of them.  Particularly user and auth at the moment.
+* Make some models
+* Make the API
+
 To start your Phoenix app:
 
   * Install dependencies with `mix deps.get`
