@@ -102,4 +102,11 @@ defmodule Brewbase.User do
     end
   end
 
+  def set_password(struct, params \\ %{}) do
+    struct
+    |> cast(params, ~w(password))
+    |> validate_length(:password, min: 6, message: "Password must be at least 6 characters")
+    |> put_hash_password()
+  end
+
 end
