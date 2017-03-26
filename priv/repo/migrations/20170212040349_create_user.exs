@@ -8,7 +8,7 @@ defmodule Brewbase.Repo.Migrations.CreateUser do
       add :email, :string, null: false
       add :hashed_password, :string, default: "", null: false
       add :is_active, :boolean, default: false, null: false
-      add :last_login, :datetime, null: true
+      add :last_login, :utc_datetime, null: true
 
       timestamps()
     end
