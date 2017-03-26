@@ -59,7 +59,7 @@ defmodule Brewbase.Fermenter do
   @bucket 0
   @carboy 1
   @conical 2
-  @type_map = %{@bucket => "Bucket", @carboy => "Carboy", @conical => "Conical"}
+  @type_map %{@bucket => "Bucket", @carboy => "Carboy", @conical => "Conical"}
 
   def bucket, do: @bucket
   def carboy, do: @carboy
