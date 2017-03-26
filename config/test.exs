@@ -12,8 +12,8 @@ config :logger, level: :warn
 # Configure your database
 config :brewbase, Brewbase.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: System.get_env("DB_USER"),
+  password: System.get_env("DB_PASSWORD"),
   database: "brewbase_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
