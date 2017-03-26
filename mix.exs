@@ -54,7 +54,7 @@ defmodule Brewbase.Mixfile do
      {:calendar, "~> 0.16"},
      {:calecto, "~> 0.16.0"},
      {:comeonin, "~> 3.0"},
-     {:ex_machina, "~> 1.0"},
+     {:ex_machina, "~> 2.0"},
      {:bamboo, "~> 0.8"},
      {:bamboo_smtp, "~> 1.3.0"},
      {:guardian, "~> 0.14"},
