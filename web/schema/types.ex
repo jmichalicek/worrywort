@@ -1,0 +1,30 @@
+defmodule Brewbase.Schema.Types do
+  use Absinthe.Schema.Notation
+  use Absinthe.Ecto, repo: Brewbase.Repo
+ 
+  object :user do
+    field :id, :id
+    field :first_name, :string
+    field :email, :string
+    #field :batches, list_of(:batch), resolve: assoc(:batches)
+  end
+ 
+  object :batch do
+    field :id, :id
+    field :name, :string
+    field :brew_notes, :string
+    field :user, :user, resolve: assoc(:user)
+    # TODO: add fermenter and other info
+  end
+
+  object :fermenter do
+    field :id, :id
+    field :name, :string
+    field :is_active, :boolean
+    field :is_available, :boolean
+  end
+ 
+  object :session do
+    field :token, :string
+  end
+end
