@@ -14,6 +14,7 @@ defmodule Brewbase.Schema.Types do
     field :name, :string
     field :brew_notes, :string
     field :user, :user, resolve: assoc(:user)
+    field :fermenter, :fermenter, resolve: assoc(:fermenter)
     # TODO: add fermenter and other info
   end
 
@@ -22,6 +23,7 @@ defmodule Brewbase.Schema.Types do
     field :name, :string
     field :is_active, :boolean
     field :is_available, :boolean
+    field :user, :user, resolve: assoc(:user)
   end
  
   object :session do

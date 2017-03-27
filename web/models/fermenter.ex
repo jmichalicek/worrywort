@@ -82,8 +82,8 @@ defmodule Brewbase.Fermenter do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :description, :volume, :units, :type, :is_active, :is_available])
+    |> cast(params, [:name, :description, :volume, :units, :type, :is_active, :is_available, :user_id])
     |> validate_required([:name, :volume, :units, :type])
-    |> cast_assoc(:user, required: true)
+    |> cast_assoc(:user, required: false)
   end
 end
