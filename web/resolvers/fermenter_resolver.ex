@@ -23,10 +23,7 @@ defmodule Brewbase.Resolvers.FermenterResolver do
         |> Repo.all
       {:ok, fermenters}
   end
-
-  def all(_args, _info) do
-    {:error, "Not Authorized"}
-  end
+  def all(_args, _info), do {:error, "Not Authorized"}
 
   def create(params, info=%{context: %{current_user: %{id: id}}}) do
     changes = Map.put(params, :user_id, id)
@@ -34,8 +31,5 @@ defmodule Brewbase.Resolvers.FermenterResolver do
     |> Fermenter.changeset(changes)
     |> Repo.insert
   end
-
-  def create(_, _) do
-    {:error, "Not Authorized"}
-  end
+  def create(_, _), do {:error, "Not Authorized"}
 end
