@@ -11,6 +11,8 @@ defmodule Brewbase.User do
     field :is_active, :boolean, default: false
     field :last_login, Calecto.DateTimeUTC
 
+    has_many :fermenters, Brewbase.Fermenter
+
     timestamps()
 
     # VIRTUAL FIELDS
