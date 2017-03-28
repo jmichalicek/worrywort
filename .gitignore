@@ -4,6 +4,11 @@
 /deps
 /*.ez
 
+# temp files
+*.swp
+*~
+*.tmp
+
 # Generated on crash by the VM
 erl_crash.dump
 
