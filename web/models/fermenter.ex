@@ -27,6 +27,10 @@ defmodule Brewbase.Fermenter do
     :type => %{
       :required => "Please specify the type of fermenter"
     },
+    :user => %{
+      :required => "Please include a user",
+      :invalid => "That is not a valid user"
+    }
   }
 
   def error_messages,  do: @error_messages
@@ -84,6 +88,6 @@ defmodule Brewbase.Fermenter do
     struct
     |> cast(params, [:name, :description, :volume, :units, :type, :is_active, :is_available, :user_id])
     |> validate_required([:name, :volume, :units, :type])
-    |> cast_assoc(:user, required: false)
+    |> assoc_constraint(:user, message: @error_messages.user.invalid)
   end
 end
