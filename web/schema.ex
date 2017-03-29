@@ -6,6 +6,7 @@ defmodule Brewbase.Schema do
   
   import_types Brewbase.Schema.Types
   alias Brewbase.Resolvers.FermenterResolver
+  alias Brewbase.Resolvers.BatchResolver
 
   query do
     field :fermenters, list_of(:fermenter) do
@@ -14,6 +15,14 @@ defmodule Brewbase.Schema do
     field :fermenter, type: :fermenter do
       arg :id, non_null(:id)
       resolve &FermenterResolver.get/2
+    end
+
+    field :batch, type: :batch do
+      arg :id, non_null(:id)
+      resolve &BatchResolver.get/2
+    end
+    field :batches, list_of(:batch) do
+      resolve &BatchResolver.all/2
     end
   end
 
@@ -41,6 +50,16 @@ defmodule Brewbase.Schema do
       arg :type, non_null(:integer)
 
       resolve &FermenterResolver.create/2
+    end
+
+    field :create_batch, type: :batch do
+      arg :name, non_null(:string)
+      arg :fermenter, non_null(:integer)
+      arg :boil_volume, :float
+      arg :volume_units, non_null(:integer)
+      arg :original_gravity, :float
+
+      resolve &BatchResolver.create/2
     end
  
   # Code Omitted

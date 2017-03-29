@@ -32,6 +32,7 @@ defmodule Brewbase.Batch do
     volume_units (integer): The enumeration for the units used for the volumes
   """ 
   use Brewbase.Web, :model
+  alias Brewbase.Repo
 
   schema "batches" do
     field :name, :string, default: ""
@@ -54,12 +55,13 @@ defmodule Brewbase.Batch do
 
     timestamps()
   end
-
- # stuff for managing the choices for units, type, etc.
+  
+  # stuff for managing the choices for units, type, etc.
   # It's possible these should live in their own modules and be imported
   ## UNITS
   @gallons 0
   @quarts 1
+  @units  [@gallons, @quarts]
   @units_map %{@gallons => "Gallons", @quarts => "Quarts"}
 
   def gallons, do: @gallons
@@ -83,11 +85,52 @@ defmodule Brewbase.Batch do
   Builds a changeset with data for creating a brew batch
   """
   def changeset(struct, params \\ %{}) do
+    # TODO: validate lengths of url, int/float ranges, etc.
+    # TODO: Does validate_inclusion work when :units was not in the changeset?  It should just pass then,
+    # at least if the units is on the model, I hope
+    # TODO: add brew_date to required after figuring out the graphql for it
     struct
-    |> cast(params, [:name, :brew_notes, :tasting_notes, :brew_date, :bottle_date, :estimated_bottling_date, :estimated_drinkable_date, :original_gravity, :final_gravity, :recipe_url, :secondary_fermenter_date, :boil_volume, :fermenter_volume, :bottled_volume, :volume_units])
-    |> validate_required([:name, :brew_date])
-    |> cast_assoc(:user, required: true)
-    |> cast_assoc(:fermenter, required: false)
+    |> cast(params, [:name, :brew_notes, :tasting_notes, :brew_date, :bottle_date, :estimated_bottling_date, :estimated_drinkable_date, :original_gravity, :final_gravity, :recipe_url, :secondary_fermenter_date, :boil_volume, :fermenter_volume, :bottled_volume, :volume_units, :user_id, :fermenter_id])
+    |> validate_required([:name, :user_id])
+    #    |> validate_inclusion(:volume_units, @units)
+    |> assoc_constraint(:user)
+    |> assoc_constraint(:fermenter)
+    |> validate_fermenter
+  end
+
+  @doc """
+  Validate that the user specified for the Batch owns the Fermenter or
+  that fermenter is not being changed.
+
+  :user_id should be validated with validate_required and assoc_constraint
+  before calling this function.  Although it makes the code a bit gross,
+  the function checks that :user_id is set just in case.
+  """
+  defp validate_fermenter(changeset) do
+    fermenter_id =
+      case fetch_change(changeset, :fermenter_id) do
+        :error -> nil
+        {:ok, fid} -> fid 
+      end
+
+    user_id =
+      case fetch_field(changeset, :user_id) do
+        :error -> :error
+        {_, uid} -> uid
+      end
+
+    cond do
+      fermenter_id && user_id ->
+        case Repo.get_by(Brewbase.Fermenter, id: fermenter_id, user: user_id) do
+          nil -> 
+            changeset |> add_error(:fermenter, @error_messages.fermenter.invalid)
+          fermenter -> changeset
+        end
+      user_id == :error ->
+        changeset |> add_error(:fermenter, @error_messages.fermenter.invalid)
+      user_id -> changeset
+    end
+
   end
 
   @doc """

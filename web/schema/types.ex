@@ -15,6 +15,9 @@ defmodule Brewbase.Schema.Types do
     field :brew_notes, :string
     field :user, :user, resolve: assoc(:user)
     field :fermenter, :fermenter, resolve: assoc(:fermenter)
+    field :boil_volume, :float
+    field :volume_units, :integer
+    field :original_gravity, :float
     # TODO: add fermenter and other info
   end
 
