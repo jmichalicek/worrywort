@@ -16,34 +16,20 @@ defmodule Brewbase.Resolvers.BatchResolver do
       end
   end
 
-  def all(_args, %{context: %{current_user: %{id: id}}}) do
+  def all(args, %{context: %{current_user: %{id: id}}}) do
     # TODO: allow filter by fermenter
 
-    # Are these two things different?  Top definitely does a join
-    # whereas the lower might do an extra query each for fermenter and user?
-    # I find this way more readable, really
-    batches = from batch in Batch,
-      left_join: user in assoc(batch, :user),
-      left_join: fermenter in assoc(batch, :fermenter),
-      where: batch.user_id == ^id,
-      select: batch,
-      preload: [fermenter: fermenter]
+    query =
+      Batch
+      |> join(:left, [batch], user in assoc(batch, :user))
+      |> join(:left, [batch], fermenter in assoc(batch, :fermenter))
+      |> where(user_id: ^id)
+      |> preload([:fermenter, :user])
+      |> select([batch, fermenter, user], batch)
 
-    batches = Repo.all(batches)
+    # now we can compose other filters, etc. based on the args 
+    batches = query |> Repo.all
     {:ok, batches}
-
-    # below matches all examples I can find, but the joins complain about batch
-    # not being defined on the join lines
-    #batches =
-    #  Batch
-    #  |> join(:left, [batch], user in User, batch.user_id == user.id)
-    #  |> join(:left, [batch], fermenter in Fermenter,
-    #          batch.fermenter_id == fermenter.id and fermenter.user_id == user.id)
-    #  |> where(user_id: ^id)
-    #  |> preload([:fermenter, :user])
-    #  |> select([batch, fermenter, user], batch)
-    #  |> Repo.all
-    #{:ok, batches}
   end
   def all(_args, _info), do: {:error, "Not Authorized"}
 
