@@ -121,7 +121,7 @@ defmodule Brewbase.Batch do
 
     cond do
       fermenter_id && user_id ->
-        case Repo.get_by(Brewbase.Fermenter, id: fermenter_id, user: user_id) do
+        case Repo.get_by(Brewbase.Fermenter, id: fermenter_id, user_id: user_id) do
           nil -> 
             changeset |> add_error(:fermenter, @error_messages.fermenter.invalid)
           fermenter -> changeset
