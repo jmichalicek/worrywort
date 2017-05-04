@@ -3,11 +3,20 @@
 A toy project for tracking homebrew batches written using Elixir/Phoenix
 with a GraphQL API and likely React front end.
 
+## Getting Started
+* Generate a secret key base - mix phoenix.gen.secret
+* Generate a guardian secret key
+  * Use one of the following (or any other valid secret key gen command you like)
+    * JOSE.JWK.generate_key({:oct, 16}) |> JOSE.JWK.to_map |> elem(1)
+    * JOSE.JWS.generate_key(%{"alg" => "HS256"}) |> JOSE.JWK.to_map |> elem(1)
+    * JOSE.JWS.generate_key(%{"alg" => "HS512"}) |> JOSE.JWK.to_map |> elem(1)
+  * Easiest to then copy the "k" value as a string for the env
+
 ## TODO
 
 * Test cases - any of them.  Particularly user and auth at the moment.
-* Make some models
-* Make the API
+* Make it easier to handle the guardian key in other ways, using EC algorithms, from files, etc.
+* Set up shell and batch scripts to run development docker env
 
 To start your Phoenix app:
 
