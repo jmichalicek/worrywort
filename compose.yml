@@ -1,0 +1,31 @@
+version: "3"
+services:
+    phoenix:
+        image: ${WORRYWORT_IMAGE:-worrywort/worrywort:dev}
+        stdin_open: true
+        tty: true
+        ports:
+            - "4000:4000"
+        volumes:
+            - ${WORRYWORT_SOURCE_DIR:-.}:/home/developer/worrywort/
+        environment:
+            - SHELL=/usr/bin/zsh
+            - POSTGRES_DB=${POSTGRES_DB:-worrywort}
+            - POSTGRES_USER=${POSTGRES_USER:-worrywort}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-worrywort}
+            - DB_HOST=${DB_HOST:-database}
+            - SMTP_HOST=${SMTP_HOST:-fake}
+            - SMTP_PORT=${SMTP_PORT:-1234}
+            - SMTP_USERNAME=${SMTP_USERNAME:-fake}
+            - SMTP_PASSWORD=${SMTP_PASSWORD:-fake}
+            - GUARDIAN_SECRET_KEY=${GUARDIAN_SECRET_KEY}
+            - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+    database:
+        image: "postgres:9.6.2"
+        environment:
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-worrywort}
+            - POSTGRES_USER=${POSTGRES_USER:-worrywort}
+            - POSTGRES_DB=${POSTGRES_DB:-worrywort}
+        privileged: true
+        links:
+            - phoenix

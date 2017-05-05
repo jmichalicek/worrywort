@@ -32,7 +32,7 @@ defmodule Brewbase.Mixfile do
    :logger, :gettext, :phoenix_ecto, :postgrex, :comeonin, :ueberauth,
    :ueberauth_identity, :tzdata, :calendar, :bamboo, :bamboo_smtp, :phoenix_users,
    :absinthe,]
-   
+
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
   defp elixirc_paths(_),     do: ["lib", "web"]
@@ -63,7 +63,7 @@ defmodule Brewbase.Mixfile do
      {:absinthe_plug, "~> 1.2"},
      {:absinthe_ecto, git: "https://github.com/absinthe-graphql/absinthe_ecto.git"},
      # dev stuff
-     {:phoenix_users, path: "~/dev/phoenix_users/"},
+     {:phoenix_users, git: "https://github.com/jmichalicek/phoenix_users.git"},
    ]
   end
 
