@@ -1,7 +1,7 @@
 defmodule Brewbase.Schema.Types do
   use Absinthe.Schema.Notation
   use Absinthe.Ecto, repo: Brewbase.Repo
- 
+
 
   scalar :datetime, description: "RFC 3339/ISO 8601 datetime" do
     parse &Calendar.DateTime.Parse.rfc3339_utc(&1.value)
@@ -16,7 +16,7 @@ defmodule Brewbase.Schema.Types do
     field :email, :string
     #field :batches, list_of(:batch), resolve: assoc(:batches)
   end
- 
+
   @desc "A batch brewed by a user"
   object :batch do
     field :id, :id
@@ -58,15 +58,31 @@ defmodule Brewbase.Schema.Types do
     field :updated_at, :datetime
   end
 
+  @desc "Enum of fermenter types"
+  enum :fermenter_types do
+    value :bucket, as: 0
+    value :carboy, as: 1
+    value :conical, as: 2
+  end
+
+  enum :volume_units do
+    value :gallons, as: 0
+    value :quarts, as: 1
+  end
+
   @desc "A beer fermentation vessel"
   object :fermenter do
     field :id, :id
     field :name, :string
     field :is_active, :boolean
     field :is_available, :boolean
+    field :type, non_null(:fermenter_types)
+    field :units, non_null(:volume_units)
+    field :volume, :float
+    field :description, :string
     field :user, :user, resolve: assoc(:user)
   end
- 
+
   @desc "A session for an API client"
   object :session do
     field :token, :string
