@@ -67,7 +67,7 @@ defmodule Brewbase.Schema.Types do
 
   enum :volume_units do
     value :gallons, as: 0
-    value :quarts, as: 1
+    value :liters, as: 1
   end
 
   @desc "A beer fermentation vessel"

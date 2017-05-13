@@ -30,7 +30,7 @@ defmodule Brewbase.Batch do
     tasting_notes (text): Notes about the flavor when finally tasted
     user (Brewbase.User): Foreign key/assoc to Brewbase.User who created the batch
     volume_units (integer): The enumeration for the units used for the volumes
-  """ 
+  """
   use Brewbase.Web, :model
   alias Brewbase.Repo
 
@@ -55,17 +55,17 @@ defmodule Brewbase.Batch do
 
     timestamps()
   end
-  
+
   # stuff for managing the choices for units, type, etc.
   # It's possible these should live in their own modules and be imported
   ## UNITS
   @gallons 0
-  @quarts 1
-  @units  [@gallons, @quarts]
-  @units_map %{@gallons => "Gallons", @quarts => "Quarts"}
+  @liters 1
+  @units  [@gallons, @liters]
+  @units_map %{@gallons => "Gallons", @liters => "Liters"}
 
   def gallons, do: @gallons
-  def quarts, do: @quarts
+  def liters, do: @liters
 
   # Could I do metaprogramming template magic to dynamically create
   # get_FOO_display functions?
@@ -110,7 +110,7 @@ defmodule Brewbase.Batch do
     fermenter_id =
       case fetch_change(changeset, :fermenter_id) do
         :error -> nil
-        {:ok, fid} -> fid 
+        {:ok, fid} -> fid
       end
 
     user_id =
@@ -122,7 +122,7 @@ defmodule Brewbase.Batch do
     cond do
       fermenter_id && user_id ->
         case Repo.get_by(Brewbase.Fermenter, id: fermenter_id, user_id: user_id) do
-          nil -> 
+          nil ->
             changeset |> add_error(:fermenter, @error_messages.fermenter.invalid)
           fermenter -> changeset
         end

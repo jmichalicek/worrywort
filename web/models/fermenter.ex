@@ -39,11 +39,11 @@ defmodule Brewbase.Fermenter do
   # It's possible these should live in their own modules and be imported
   ## UNITS
   @gallons 0
-  @quarts 1
-  @units_map %{@gallons => "Gallons", @quarts => "Quarts"}
+  @liters 1
+  @units_map %{@gallons => "Gallons", @liters => "Liters"}
 
   def gallons, do: @gallons
-  def quarts, do: @quarts
+  def liters, do: @liters
 
   # Could I do metaprogramming template magic to dynamically create
   # get_FOO_display functions?
