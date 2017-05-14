@@ -70,6 +70,17 @@ defmodule Brewbase.Schema.Types do
     value :liters, as: 1
   end
 
+  @desc "A beer fermentation vessel input"
+  input_object :fermenter_input do
+    field :name, :string
+    field :is_active, :boolean
+    field :is_available, :boolean
+    field :type, non_null(:fermenter_type)
+    field :units, non_null(:volume_unit)
+    field :volume, :float
+    field :description, :string
+  end
+
   @desc "A beer fermentation vessel"
   object :fermenter do
     field :id, :id
