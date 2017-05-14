@@ -3,7 +3,7 @@ defmodule Brewbase.Schema do
   GraphQL schema for Brewbase
   """
   use Absinthe.Schema
-  
+
   import_types Brewbase.Schema.Types
   alias Brewbase.Resolvers.FermenterResolver
   alias Brewbase.Resolvers.BatchResolver
@@ -30,14 +30,14 @@ defmodule Brewbase.Schema do
     #field :update_user, type: :user do
     #  arg :id, non_null(:integer)
     #arg :user, :update_user_params
- 
+
     #resolve &Brewbase.UserResolver.update/2
     #end
- 
+
     field :login, type: :session do
       arg :email, non_null(:string)
       arg :password, non_null(:string)
- 
+
       resolve &Brewbase.Resolvers.UserResolver.login/2
     end
 
@@ -46,8 +46,9 @@ defmodule Brewbase.Schema do
       arg :name, non_null(:string)
       arg :description, :string
       arg :volume, non_null(:float)
-      arg :units, non_null(:integer)
-      arg :type, non_null(:integer)
+      arg :units, non_null(:volume_unit)
+      arg :type, non_null(:fermenter_type)
+      arg :is_active, non_null(:boolean)
 
       resolve &FermenterResolver.create/2
     end
@@ -68,7 +69,7 @@ defmodule Brewbase.Schema do
 
       resolve &BatchResolver.create/2
     end
- 
+
   # Code Omitted
   end
 end

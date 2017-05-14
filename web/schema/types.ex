@@ -59,13 +59,13 @@ defmodule Brewbase.Schema.Types do
   end
 
   @desc "Enum of fermenter types"
-  enum :fermenter_types do
+  enum :fermenter_type do
     value :bucket, as: 0
     value :carboy, as: 1
     value :conical, as: 2
   end
 
-  enum :volume_units do
+  enum :volume_unit do
     value :gallons, as: 0
     value :liters, as: 1
   end
@@ -76,8 +76,8 @@ defmodule Brewbase.Schema.Types do
     field :name, :string
     field :is_active, :boolean
     field :is_available, :boolean
-    field :type, non_null(:fermenter_types)
-    field :units, non_null(:volume_units)
+    field :type, non_null(:fermenter_type)
+    field :units, non_null(:volume_unit)
     field :volume, :float
     field :description, :string
     field :user, :user, resolve: assoc(:user)
