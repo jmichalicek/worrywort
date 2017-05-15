@@ -41,16 +41,23 @@ defmodule Brewbase.Schema do
       resolve &Brewbase.Resolvers.UserResolver.login/2
     end
 
-    # TODO: figure out how to enum these units, type, etc. ints
     field :create_fermenter, type: :fermenter do
-      arg :name, non_null(:string)
-      arg :description, :string
-      arg :volume, non_null(:float)
-      arg :units, non_null(:volume_unit)
-      arg :type, non_null(:fermenter_type)
-      arg :is_active, non_null(:boolean)
+      arg :fermenter, :fermenter_input
+      #arg :name, non_null(:string)
+      #arg :description, :string
+      #arg :volume, non_null(:float)
+      #arg :units, non_null(:volume_unit)
+      #arg :type, non_null(:fermenter_type)
+      #arg :is_active, non_null(:boolean)
 
       resolve &FermenterResolver.create/2
+    end
+
+    field :update_fermenter, type: :fermenter do
+      arg :id, non_null(:id)
+      arg :fermenter, :fermenter_input
+
+      resolve &FermenterResolver.update/2
     end
 
     field :create_batch, type: :batch do
