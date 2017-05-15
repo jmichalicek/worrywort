@@ -85,8 +85,8 @@ defmodule Brewbase.Schema.Types do
   object :fermenter do
     field :id, :id
     field :name, :string
-    field :is_active, :boolean
-    field :is_available, :boolean
+    field :is_active, non_null(:boolean)
+    field :is_available, non_null(:boolean)
     field :type, non_null(:fermenter_type)
     field :units, non_null(:volume_unit)
     field :volume, :float
