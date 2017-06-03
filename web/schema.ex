@@ -10,6 +10,8 @@ defmodule Brewbase.Schema do
 
   query do
     field :fermenters, list_of(:fermenter) do
+      arg :is_active, :boolean
+      arg :is_available, :boolean
       resolve &FermenterResolver.all/2
     end
     field :fermenter, type: :fermenter do
