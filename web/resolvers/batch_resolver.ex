@@ -12,7 +12,7 @@ defmodule Brewbase.Resolvers.BatchResolver do
     id = Map.fetch!(args, :id)
       case Batch |> Repo.get_by(user_id: user_id, id: id) do
         nil -> {:error, "Batch id #{id} not found"}
-        fermenter -> {:ok, fermenter}
+        batch -> {:ok, batch}
       end
   end
 
@@ -27,7 +27,7 @@ defmodule Brewbase.Resolvers.BatchResolver do
       |> preload([:fermenter, :user])
       |> select([batch, fermenter, user], batch)
 
-    # now we can compose other filters, etc. based on the args 
+    # now we can compose other filters, etc. based on the args
     batches = query |> Repo.all
     {:ok, batches}
   end
@@ -43,4 +43,19 @@ defmodule Brewbase.Resolvers.BatchResolver do
     |> Repo.insert
   end
   def create(_, _), do: {:error, "Not Authorized"}
+
+  @doc """
+  Update an existing batch.  Requires that the context's current user
+  owns that batch.
+  """
+  def update(args=%{id: id, batch: changes}, info=%{context: %{current_user: %{id: user_id}}}) do
+    case get(args, info) do
+      {:ok, batch} ->
+        Batch.changeset(batch, changes)
+          |> Repo.update
+      {:error, message} ->
+        {:error, message}
+    end
+  end
+  def update(_, _), do: {:error, "Not Authorized"}
 end

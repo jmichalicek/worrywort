@@ -63,18 +63,14 @@ defmodule Brewbase.Schema do
     end
 
     field :create_batch, type: :batch do
-      arg :boil_volume, non_null(:float)
-      arg :brew_date, non_null(:datetime)
-      arg :brew_notes, :string
-      arg :estimated_bottling_date, :datetime
-      arg :estimated_drinkable_date, :datetime
-      arg :name, non_null(:string)
-      arg :fermenter_id, non_null(:integer)
-      arg :fermenter_volume, :float
-      arg :boil_volume, :float
-      arg :volume_units, non_null(:integer)
-      arg :original_gravity, :float
-      arg :recipe_url, :string
+      arg :batch, :batch_input
+
+      resolve &BatchResolver.create/2
+    end
+
+    field :update_batch, type: :batch do
+      arg :id, non_null(:id)
+      arg :batch, :batch_input
 
       resolve &BatchResolver.create/2
     end
