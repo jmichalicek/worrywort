@@ -34,10 +34,10 @@ defmodule Brewbase.Resolvers.BatchResolver do
   def all(_args, _info), do: {:error, "Not Authorized"}
 
   @doc """
-  Create a bach to be brewed
+  Create a batch to be brewed
   """
-  def create(params, info=%{context: %{current_user: %{id: id}}}) do
-    changes = Map.put(params, :user_id, id)
+  def create(params=%{batch: changes}, info=%{context: %{current_user: %{id: user_id}}}) do
+    changes = Map.put(changes, :user_id, user_id)
     %Batch{}
     |> Batch.changeset(changes)
     |> Repo.insert
