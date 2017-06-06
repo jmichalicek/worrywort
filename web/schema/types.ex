@@ -37,19 +37,23 @@ defmodule Brewbase.Schema.Types do
     @desc "Measured final gravity of the beer"
     field :final_gravity, :float
     @desc "A short, descriptive name for the batch"
-    field :name, :string
+    field :name, non_null(:string)
     @desc "URL to recipe online"
     field :recipe_url, :string
     @desc "Date and time of transfer to secondary fermenter, if one was used"
     field :secondary_fermenter_date, :datetime
     @desc "Notes about the brew process"
     field :brew_notes, :string
+    @desc "Notes about batch after finally tasting it"
+    field :tasting_notes, :string
     @desc "The fermenter CURRENTLY in use by the brew batch"
     field :fermenter_id, :id
     @desc "Volume of water boiled, before boiling started"
     field :boil_volume, :float
     @desc "Units used for volumes"
     field :volume_units, non_null(:volume_unit)
+    @desc "Volume of wort bottled after fermentation"
+    field :bottled_volume, :float
     @desc "Measured OG"
     field :original_gravity, :float
     @desc "Date of brewing"
@@ -79,13 +83,18 @@ defmodule Brewbase.Schema.Types do
     field :secondary_fermenter_date, :datetime
     @desc "Notes about the brew process"
     field :brew_notes, :string
+    @desc "Notes about batch after finally tasting it"
+    field :tasting_notes, :string
+    @desc "User who brewed the batch"
     field :user, :user, resolve: assoc(:user)
     @desc "The fermenter CURRENTLY in use by the brew batch"
     field :fermenter, :fermenter, resolve: assoc(:fermenter)
-    @desc "Volume of water boiled, before boiling started"
-    field :boil_volume, :float
     @desc "Units used for volumes"
     field :volume_units, non_null(:volume_unit)
+    @desc "Volume of water boiled, before boiling started"
+    field :boil_volume, :float
+    @desc "Volume of wort bottled after fermentation"
+    field :bottled_volume, :float
     @desc "Measured OG"
     field :original_gravity, :float
     @desc "Date of brewing"
