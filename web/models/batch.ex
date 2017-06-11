@@ -90,7 +90,10 @@ defmodule Brewbase.Batch do
     # at least if the units is on the model, I hope
     # TODO: add brew_date to required after figuring out the graphql for it
     struct
-    |> cast(params, [:name, :brew_notes, :tasting_notes, :brew_date, :bottle_date, :estimated_bottling_date, :estimated_drinkable_date, :original_gravity, :final_gravity, :recipe_url, :secondary_fermenter_date, :boil_volume, :fermenter_volume, :bottled_volume, :volume_units, :user_id, :fermenter_id])
+    |> cast(params, [:name, :brew_notes, :tasting_notes, :brew_date, :bottle_date, :estimated_bottling_date,
+                     :estimated_drinkable_date, :original_gravity, :final_gravity,
+                     :recipe_url, :secondary_fermenter_date, :boil_volume, :fermenter_volume, :bottled_volume,
+                     :volume_units, :user_id, :fermenter_id])
     |> validate_required([:name, :user_id])
     #    |> validate_inclusion(:volume_units, @units)
     |> assoc_constraint(:user)
