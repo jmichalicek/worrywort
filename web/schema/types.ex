@@ -26,8 +26,6 @@ defmodule Brewbase.Schema.Types do
   input_object :batch_input do
     @desc "The date the beer was bottled"
     field :bottle_date, :datetime
-    @desc "The amount of beer transferred to bottles"
-    field :bottle_volume, :float
     @desc "Estimated date the beer will be fermented and ready for bottling or kegging"
     field :estimated_bottling_date, :datetime
     @desc "Estimated date the bottled or kegged beer will be drinkable"
@@ -65,8 +63,6 @@ defmodule Brewbase.Schema.Types do
     field :id, :id
     @desc "The date the beer was bottled"
     field :bottle_date, :datetime
-    @desc "The amount of beer transferred to bottles"
-    field :bottle_volume, :float
     @desc "Estimated date the beer will be fermented and ready for bottling or kegging"
     field :estimated_bottling_date, :datetime
     @desc "Estimated date the bottled or kegged beer will be drinkable"
