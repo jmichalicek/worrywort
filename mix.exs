@@ -63,7 +63,8 @@ defmodule Brewbase.Mixfile do
      {:absinthe_plug, "~> 1.2"},
      {:absinthe_ecto, git: "https://github.com/absinthe-graphql/absinthe_ecto.git"},
      # dev stuff
-     {:phoenix_users, git: "https://github.com/jmichalicek/phoenix_users.git"},
+     {:phoenix_users, git: "https://github.com/jmichalicek/phoenix_users.git",
+      ref: "b672861affa52b4760a3338b1c1a5bde8b2aa254"},
    ]
   end
 
