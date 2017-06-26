@@ -7,7 +7,7 @@ services:
         ports:
             - "4000:4000"
         volumes:
-            - ${WORRYWORT_SOURCE_DIR:-.}:/home/developer/worrywort/
+            - ${WORRYWORT_SOURCE_DIR:-~.}:/home/developer/worrywort/
         environment:
             - SHELL=/usr/bin/zsh
             - POSTGRES_DB=${POSTGRES_DB:-worrywort}
@@ -26,6 +26,12 @@ services:
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-worrywort}
             - POSTGRES_USER=${POSTGRES_USER:-worrywort}
             - POSTGRES_DB=${POSTGRES_DB:-worrywort}
+            - PGDATA=${PGDATA:-/var/lib/postgresql/data/pgdata}
         privileged: true
         links:
             - phoenix
+        volumes:
+            - ${PGDATA_VOLUME:-worrywort_db}:/var/lib/postgresql/data/pgdata
+
+volumes:
+    worrywort_db:
