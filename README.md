@@ -11,6 +11,12 @@ with a GraphQL API and likely React front end.
     * JOSE.JWS.generate_key(%{"alg" => "HS256"}) |> JOSE.JWK.to_map |> elem(1)
     * JOSE.JWS.generate_key(%{"alg" => "HS512"}) |> JOSE.JWK.to_map |> elem(1)
   * Easiest to then copy the "k" value as a string for the env
+  * or this
+    ```
+    config :guardian, Guardian,
+    allowed_algos: ["HS256"],
+    secret_key: %{"k" => "5Fn8i7r5cRWZW_yyr9Flkg", "kty" => "oct"}
+    ```
   
 ## Development using Docker
 
