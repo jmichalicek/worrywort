@@ -11,7 +11,7 @@ with a GraphQL API and likely React front end.
     * JOSE.JWS.generate_key(%{"alg" => "HS256"}) |> JOSE.JWK.to_map |> elem(1)
     * JOSE.JWS.generate_key(%{"alg" => "HS512"}) |> JOSE.JWK.to_map |> elem(1)
   * Easiest to then copy the "k" value as a string for the env
-  * or this
+  * or this from https://github.com/ueberauth/guardian/issues/152#issuecomment-220405712
     ```
     config :guardian, Guardian,
     allowed_algos: ["HS256"],
