@@ -7,7 +7,7 @@ services:
         ports:
             - "4000:4000"
         volumes:
-            - ${WORRYWORT_SOURCE_DIR:-.}:/home/developer/worrywort/
+            - ${WORRYWORT_SOURCE_DIR}:/home/developer/worrywort/
         environment:
             - SHELL=/usr/bin/zsh
             - POSTGRES_DB=${POSTGRES_DB:-worrywort}
