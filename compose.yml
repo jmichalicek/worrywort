@@ -27,5 +27,10 @@ services:
             - POSTGRES_USER=${POSTGRES_USER:-worrywort}
             - POSTGRES_DB=${POSTGRES_DB:-worrywort}
         privileged: true
+        volumes:
+            - worrywort_db:/var/lib/postgresql/data
         links:
             - phoenix
+
+volumes:
+    worrywort_db:
