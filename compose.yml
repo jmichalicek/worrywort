@@ -31,12 +31,12 @@ services:
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-worrywort}
             - POSTGRES_USER=${POSTGRES_USER:-worrywort}
             - POSTGRES_DB=${POSTGRES_DB:-worrywort}
+            - PGDATA=${PGDATA:-/var/lib/postgresql/data/pgdata}
         privileged: true
         volumes:
             - worrywort_db:/var/lib/postgresql/data
         links:
             - phoenix
-
 volumes:
     worrywort_db:
     worrywort_build_dir:
